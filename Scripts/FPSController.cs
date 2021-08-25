@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -21,7 +22,7 @@ public class FPSController : MonoBehaviour
 
 
     private Vector2 m_MoveInput;
-    [SerializeField] private bool m_IsWalking = false;
+    [SerializeField] private bool m_IsWalking = true;
     [SerializeField] private float m_WalkSpeed = 5;
     [SerializeField] private float m_RunSpeed = 10;
     private Vector3 m_MoveDir = Vector3.zero;
@@ -143,36 +144,26 @@ public class FPSController : MonoBehaviour
         body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputValue value)
     {
-        m_MoveInput = context.ReadValue<Vector2>();
+        m_MoveInput = value.Get<Vector2>();
     }
 
-    public void OnLook(InputAction.CallbackContext context)
+    public void OnLook(InputValue value)
     {
-        m_LookInput = context.ReadValue<Vector2>();
+        m_LookInput = value.Get<Vector2>();
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputValue value)
     {
-        if (!m_Jump && context.phase == InputActionPhase.Started)
+        if (m_CharacterController.isGrounded)
         {
             m_Jump = true;
         }
     }
 
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnSprint(InputValue value)
     {
-        switch(context.phase)
-        {
-            case InputActionPhase.Started:
-            case InputActionPhase.Performed:
-                m_IsWalking = false;
-                break;
-            case InputActionPhase.Canceled:
-            case InputActionPhase.Disabled:
-                m_IsWalking = true;
-                break;
-        }
+        m_IsWalking = !Convert.ToBoolean(value.Get<Single>());
     }
 }
