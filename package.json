@@ -1,8 +1,8 @@
 {
   "name": "com.igme202.fpscontroller",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "FPS Controller",
-  "description": "This package contains an FPS controller that can be used for exercise 1 and 2 for IGME 202.",
+  "description": "This package contains an FPS controller that can be used for IGME 202. It uses the new Input System.",
   "unity": "2019.4",
   "unityRelease": "7f1",
   "dependencies": {
